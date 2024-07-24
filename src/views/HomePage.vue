@@ -1,13 +1,7 @@
 <template>
-	<div>
-		HomePage
-	</div>
+  <div>HomePage</div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup></script>
 
-</script>
-
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

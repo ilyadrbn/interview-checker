@@ -1,5 +1,10 @@
 // * styles
 import "@/assets/styles/main.css";
+import PrimeVue from "primevue/config";
+import "primeicons/primeicons.css";
+import Aura from "@primevue/themes/aura";
+import Menubar from "primevue/menubar";
+import Button from "primevue/button";
 
 // * libraries
 import { createApp } from "vue";
@@ -14,10 +19,19 @@ import { firebaseConfig } from "@/firebase";
 import { router } from "@/router";
 
 // * main part
-initializeApp( firebaseConfig );
+initializeApp(firebaseConfig);
+
+const app = createApp(App);
 
 // * app init
-createApp( App )
-.use( router )
-.use( createPinia() )
-.mount( "#app" );
+app
+  .use(PrimeVue, {
+    theme: {
+      preset: Aura,
+    },
+  })
+  .component("app-menubar", Menubar)
+  .component("app-button", Button)
+  .use(router)
+  .use(createPinia())
+  .mount("#app");

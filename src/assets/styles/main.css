@@ -1,2 +1,8 @@
 @use "_normalize.scss";
 /*@use "_mixins.scss"; import in vite.config*/
+* {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 150%;
+}
