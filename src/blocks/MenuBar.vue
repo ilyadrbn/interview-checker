@@ -1,5 +1,15 @@
 <template>
-  <app-menubar :model="items" />
+  <app-menubar :model="items" class="menu">
+    <template #item="{ item, props }">
+      <router-link
+        :to="item.path"
+        v-bind="props.action"
+        class="flex align-items-center">
+        <span :class="item.icon"></span>
+        <span>{{ item.label }}</span>
+      </router-link>
+    </template>
+  </app-menubar>
 </template>
 
 <script lang="ts" setup>
@@ -35,4 +45,11 @@ const items = ref<IMenuItem[]>([
 ]);
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.menu {
+  margin: 30px 0;
+}
+.menu-exit {
+  cursor: pointer;
+}
+</style>
