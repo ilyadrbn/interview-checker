@@ -3,20 +3,27 @@ import type {
   RouteLocationNormalized, // ! для to и from
   NavigationGuardNext, // ! для next
 } from "vue-router";
-
-import { useStore } from "@/store";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+// import { useStore } from "@/store";
 
 const checkAuth = (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
   next: NavigationGuardNext
 ) => {
-  const useUserStore = useStore();
-  if (!useUserStore.userID) {
-    next({ name: "AuthorizationPage" });
-  } else {
-    next();
-  }
+  // const useUserStore = useStore();
+  let isAuth = false;
+  onAuthStateChanged(getAuth(), (user) => {
+    if (user && !isAuth) {
+      isAuth = true;
+      // useUserStore.userID = user.uid;
+      next();
+    } else if (!user && !isAuth) {
+      isAuth = true;
+      // useUserStore.userID = "";
+      next({ name: "AuthorizationPage" });
+    }
+  });
 };
 
 export const routes: RouteRecordRaw[] = [
@@ -24,7 +31,6 @@ export const routes: RouteRecordRaw[] = [
     name: "AuthorizationPage",
     path: "/auth",
     component: () => import("@/views/AuthorizationPage.vue"),
-    // ! beforeEnter: checkAuth,  // если оставить, то при пустом юзере при переходе с другой страницы будет срабатывать аналогичное событие для авторизации и так по кругу
   },
   {
     name: "HomePage",
@@ -33,7 +39,7 @@ export const routes: RouteRecordRaw[] = [
     beforeEnter: checkAuth,
   },
   {
-    name: "IntreviewPage",
+    name: "InterviewPage",
     path: "/interview/:id",
     component: () => import("@/views/InterviewPage.vue"),
     beforeEnter: checkAuth,

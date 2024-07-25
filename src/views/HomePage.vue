@@ -1,7 +1,7 @@
+<script lang="ts" setup></script>
+
 <template>
   <div>HomePage</div>
 </template>
-
-<script lang="ts" setup></script>
 
 <style lang="scss" scoped></style>
