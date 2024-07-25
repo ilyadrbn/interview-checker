@@ -2,9 +2,7 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 
 export const useStore = defineStore("counter", () => {
-  const count = ref(0);
+  const userID = ref<string>("");
 
-  return {
-    count,
-  };
+  return { userID };
 });

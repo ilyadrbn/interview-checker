@@ -2,6 +2,7 @@
 import "@/assets/styles/main.css";
 import PrimeVue from "primevue/config";
 import "primeicons/primeicons.css";
+import "primeflex/primeflex.scss";
 import Aura from "@primevue/themes/aura";
 import Menubar from "primevue/menubar";
 import Button from "primevue/button";
@@ -25,6 +26,8 @@ const app = createApp(App);
 
 // * app init
 app
+  .use(router)
+  .use(createPinia())
   .use(PrimeVue, {
     theme: {
       preset: Aura,
@@ -32,6 +35,4 @@ app
   })
   .component("app-menubar", Menubar)
   .component("app-button", Button)
-  .use(router)
-  .use(createPinia())
   .mount("#app");
