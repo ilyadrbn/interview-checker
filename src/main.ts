@@ -10,6 +10,7 @@ import InputText from "primevue/inputtext";
 import Toast from "primevue/toast";
 import ToastService from "primevue/toastservice";
 import ProgressSpinner from "primevue/progressspinner";
+import Card from "primevue/card";
 
 // * libraries
 import { createApp } from "vue";
@@ -43,4 +44,5 @@ app
   .component("app-input-text", InputText)
   .component("app-toast", Toast)
   .component("app-progress-spinner", ProgressSpinner)
+  .component("app-card", Card)
   .mount("#app");

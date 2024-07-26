@@ -1,20 +1,36 @@
 <script lang="ts" setup>
-import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
-import { useToast } from "primevue/usetoast";
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useToast } from 'primevue/usetoast';
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-} from "firebase/auth";
+} from 'firebase/auth';
 
 const toast = useToast();
 const router = useRouter();
 
-const email = ref<string>("");
-const password = ref<string>("");
+const email = ref<string>('');
+const password = ref<string>('');
 const accountExists = ref<boolean>(true);
 const isLoading = ref<boolean>(false);
+
+const switchAuthOptions = () => {
+  accountExists.value = !accountExists.value;
+};
+
+const subtitleText = computed(() => {
+  return accountExists.value ? 'Ещё нет аккаунта?' : 'Уже есть аккаунт?';
+});
+
+const linkAccountText = computed(() => {
+  return accountExists.value ? 'Создайте сейчас.' : 'Войти.';
+});
+
+const submitButtonText = computed(() => {
+  return accountExists.value ? 'Войти' : 'Зарегистрироваться';
+});
 
 const registerMethod = async (): Promise<void> => {
   isLoading.value = true;
@@ -24,12 +40,12 @@ const registerMethod = async (): Promise<void> => {
       email.value,
       password.value
     );
-    router.push({ name: "HomePage" });
+    router.push({ name: 'HomePage' });
   } catch (error: unknown) {
     if (error instanceof Error) {
       toast.add({
-        severity: "error",
-        summary: "Info",
+        severity: 'error',
+        summary: 'Info',
         detail: error.message,
         life: 3000,
       });
@@ -43,12 +59,12 @@ const loginMethod = async (): Promise<void> => {
   isLoading.value = true;
   try {
     await signInWithEmailAndPassword(getAuth(), email.value, password.value);
-    router.push({ name: "HomePage" });
+    router.push({ name: 'HomePage' });
   } catch (error: unknown) {
     if (error instanceof Error) {
       toast.add({
-        severity: "error",
-        summary: "Info",
+        severity: 'error',
+        summary: 'Info',
         detail: error.message,
         life: 3000,
       });
@@ -57,22 +73,6 @@ const loginMethod = async (): Promise<void> => {
     isLoading.value = false;
   }
 };
-
-const switchAuthOptions = () => {
-  accountExists.value = !accountExists.value;
-};
-
-const subtitleText = computed(() => {
-  return accountExists.value ? "Ещё нет аккаунта?" : "Уже есть аккаунт?";
-});
-
-const linkAccountText = computed(() => {
-  return accountExists.value ? "Создайте сейчас." : "Войти.";
-});
-
-const submitButtonText = computed(() => {
-  return accountExists.value ? "Войти" : "Зарегистрироваться";
-});
 
 const submitForm = (): void => {
   if (accountExists.value) {

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import MenuBar from "@/blocks/MenuBar.vue";
-import { onMounted, ref } from "vue";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import MenuBar from '@/layouts/MenuBar.vue';
+import { onMounted, ref } from 'vue';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-import { useStore } from "./store";
+import { useStore } from './store';
 
 const useUserStore = useStore();
 
@@ -11,11 +11,12 @@ const isLoading = ref<boolean>(true);
 
 onMounted(() => {
   onAuthStateChanged(getAuth(), (user) => {
+    console.log(`User info: ${user}`);
     isLoading.value = false;
     if (user) {
       useUserStore.userID = user.uid;
     } else {
-      useUserStore.userID = "";
+      useUserStore.userID = '';
     }
   });
 });

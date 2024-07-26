@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { ref, computed } from "vue";
-// ! ComputedRef для вычисляемых свойств в TS
-import type { ComputedRef } from "vue";
+import { ref, computed } from 'vue';
+// ! ComputedRef интерфейс для вычисляемых свойств в TS
+import type { ComputedRef } from 'vue';
 
-import { getAuth, signOut } from "firebase/auth";
-import { useRouter } from "vue-router";
-import { useStore } from "@/store";
+import { getAuth, signOut } from 'firebase/auth';
+import { useRouter } from 'vue-router';
+import { useStore } from '@/store';
 
 const router = useRouter();
 const useUserStore = useStore();
@@ -19,34 +19,34 @@ interface IMenuItem {
 
 const items = ref<IMenuItem[]>([
   {
-    label: "Авторизация",
-    icon: "pi pi-user",
-    pathName: "AuthorizationPage",
+    label: 'Авторизация',
+    icon: 'pi pi-user',
+    pathName: 'AuthorizationPage',
     show: computed(() => !useUserStore.userID),
   },
   {
-    label: "Добавить",
-    icon: "pi pi-plus",
-    pathName: "HomePage",
+    label: 'Добавить',
+    icon: 'pi pi-plus',
+    pathName: 'HomePage',
     show: computed(() => !!useUserStore.userID),
   },
   {
-    label: "Список собеседований",
-    icon: "pi pi-list",
-    pathName: "InterviewListPage",
+    label: 'Список собеседований',
+    icon: 'pi pi-list',
+    pathName: 'InterviewListPage',
     show: computed(() => !!useUserStore.userID),
   },
   {
-    label: "Статистика",
-    icon: "pi pi-chart-pie",
-    pathName: "StatisticsPage",
+    label: 'Статистика',
+    icon: 'pi pi-chart-pie',
+    pathName: 'StatisticsPage',
     show: computed(() => !!useUserStore.userID),
   },
 ]);
 
 const signOutMethod = async (): Promise<void> => {
   await signOut(getAuth());
-  router.push({ name: "AuthorizationPage" });
+  router.push({ name: 'AuthorizationPage' });
 };
 </script>
 
