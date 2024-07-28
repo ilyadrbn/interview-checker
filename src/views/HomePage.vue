@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 
-import { getAuth } from 'firebase/auth';
+import { useStore } from '@/store';
 import { useRouter } from 'vue-router';
 import { getFirestore, setDoc, doc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
@@ -10,6 +10,7 @@ import { useToast } from 'primevue/usetoast';
 import type { IInterviewInfo } from '@/interfaces';
 
 const router = useRouter();
+const useUserStore = useStore();
 const db = getFirestore();
 const toast = useToast();
 
@@ -32,24 +33,28 @@ const addNewInterview = async (): Promise<void> => {
     vacancyLink: vacancyLink.value,
     hrName: hrName.value,
     contactTelegram: contactTelegram.value,
-    contactWhatsUp: contactWhatsApp.value,
+    contactWhatsApp: contactWhatsApp.value,
     contactPhone: contactPhone.value,
     createdAt: new Date(),
   };
 
-  const userID = getAuth().currentUser?.uid;
-  if (userID) {
-    await setDoc(doc(db, `users/${userID}/interviews`, payload.id), payload)
+  if (useUserStore.userID) {
+    await setDoc(
+      doc(db, `users/${useUserStore.userID}/interviews`, payload.id),
+      payload
+    )
       .then(() => {
         router.push({ name: 'InterviewListPage' });
       })
-      .catch((error) => {
-        toast.add({
-          severity: 'error',
-          summary: 'Info',
-          detail: error.message,
-          life: 3000,
-        });
+      .catch((error: unknown) => {
+        if (error instanceof Error) {
+          toast.add({
+            severity: 'error',
+            summary: 'Info',
+            detail: error.message,
+            life: 3000,
+          });
+        }
       })
       .finally(() => {
         loading.value = false;

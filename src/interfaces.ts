@@ -4,7 +4,7 @@ interface IInterviewInfo {
   vacancyLink: string;
   hrName: string;
   contactTelegram?: string;
-  contactWhatsUp?: string;
+  contactWhatsApp?: string;
   contactPhone?: string;
   createdAt: Date;
 }

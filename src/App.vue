@@ -11,7 +11,6 @@ const isLoading = ref<boolean>(true);
 
 onMounted(() => {
   onAuthStateChanged(getAuth(), (user) => {
-    console.log(`User info: ${user}`);
     isLoading.value = false;
     if (user) {
       useUserStore.userID = user.uid;
